@@ -11,6 +11,13 @@ game.PlayerEntity = me.Entity.extend ({
                        return ( new me.Rect(0, 0, 128, 128)).toPolygon();
                    }
            }]);
+       
+       
+       this.renderable.addAnimation("idle", [3]);
+       this.renderable.addAnimation("smallWalk",[8, 9, 10, 11, 12]);
+       
+       this.renderable.setCurrentAnimation("idle");
+       this.renderable.setCurrentAnimation("smallWalk");
            
            
         
