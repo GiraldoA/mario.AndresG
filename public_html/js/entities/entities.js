@@ -18,7 +18,7 @@ game.PlayerEntity = me.Entity.extend({
 
         this.renderable.setCurrentAnimation("idle");
 
-        this.body.setVelocity(5, 20);
+        this.body.setVelocity(3 , 20);
     },
     update: function(delta) {
         if (me.input.isKeyPressed("right")) {
@@ -29,7 +29,7 @@ game.PlayerEntity = me.Entity.extend({
         }
 
         this.body.update(delta);
-        me.collisions.check(this, true, this.collideHandler.bind(this), true);
+        me.collision.check(this, true, this.collideHandler.bind(this), true);
 
         if (this.body.vel.x !== 0) {
             if (!this.renderable.isCurrentAnimation("smallWalk")) {
@@ -61,8 +61,8 @@ game.LevelTrigger = me.Entity.extend({
         
     },
     
-    onCollisions: function() {
-    this.body.setCollisionsMask(me.collisions.type.NO_OBJECT);
+    onCollision: function() {
+    this.body.setCollisionMask(me.collision.types.NO_OBJECT);
     me.levelDirector.loadLevel(this.level);
     
     }
