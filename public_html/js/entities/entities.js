@@ -12,6 +12,7 @@ game.PlayerEntity = me.Entity.extend({
                 }
             }]);
 
+//this is where I render my charecter animation 
 
         this.renderable.addAnimation("idle", [3]);
         this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12], 80);
@@ -19,6 +20,7 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.setCurrentAnimation("idle");
 
         this.body.setVelocity(3 , 20);
+        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
     },
     update: function(delta) {
         if (me.input.isKeyPressed("right")) {
@@ -36,10 +38,12 @@ game.PlayerEntity = me.Entity.extend({
                 this.renderable.setCurrentAnimation("smallWalk");
                 this.renderable.setAnimationFrame();
             }
-
+           
         } else {
             this.renderable.setCurrentAnimation("idle");
         }
+
+
 
         this.body.update(delta);
         this._super(me.Entity, "update", [delta]);
@@ -58,12 +62,14 @@ game.LevelTrigger = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
         this.body.onCollision = this.onCollision.bind(this);
         this.level = settings.level;
-        
+        this.xSpawn = settings.xSpawn;
+        this.ySpawn = settings.ySpawn;
     },
     
     onCollision: function() {
     this.body.setCollisionMask(me.collision.types.NO_OBJECT);
     me.levelDirector.loadLevel(this.level);
+    me.state.current().resetPlayer(this.xSpawn, this.ySpawn);
     
     }
     
