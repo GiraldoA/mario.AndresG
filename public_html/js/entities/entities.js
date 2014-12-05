@@ -100,21 +100,26 @@ game.BadGuy = me.Entity.extend({
         
         this.walkLeft = false;
         this.alive = true;
-        this.type = "badguy";         
+        this.type = "badguy";    
+        
+        this.body.setVelocity(4, 6);
     },
 
          update: function(delta) {
              this.body.update(delta);
              me.collision.check(this, true, this.collideHandler.bind(this), true);
-             
              if(this.alive) {
+                 console.log(this.walkLeft + " " + this.pos.x + " " + this.startX + " " + this.endX);
+                 
                  if(this.walkLeft && this.pos.x <= this.startX) {
+                     console.log("Going right");
                      this.walkLeft = false;
                  }else if(!this.walkLeft && this.pos.x >= this.endX) {
+                     console.log("Going left");
                      this.walkLeft = true;
                  }
                  this.flipX(!this.walkLeft);
-                 this.body.vel.x += (this.walkLeft) ? - this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+                 this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
                  
              }else {
                  me.game.world.removeChild(this);
