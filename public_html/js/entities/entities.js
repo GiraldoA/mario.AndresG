@@ -15,19 +15,42 @@ game.PlayerEntity = me.Entity.extend({
 //this is where I render my charecter animation 
 
         this.renderable.addAnimation("idle", [3]);
+        //creat an animation caalled smallWalk using pictures of the image defined above (mario)
+        //sets the animation to run through pictures 8-12
+        // the last numnber says we sswitch between pictures every 80 milliseconds
         this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12], 80);
 
         this.renderable.setCurrentAnimation("idle");
 
+
+// it sets the speed we go on the x axis 1st number and y axis second number
         this.body.setVelocity(3 , 20);
+        
+        // sets the camer (viewport) to follow marios position(pos) on both the x and y axis
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
     },
     update: function(delta) {
+        // it checks if the right key is pressed and if it is it execute the following statement
         if (me.input.isKeyPressed("right")) {
+            // sets the position of mario on the x axis by adding the x value from the setVelocity times the timer.tick
+            //me.timer.tick uses the time since last animation to make the distance traveled smooth
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-
-        } else {
+            this.flipX(false);
+        }
+       if(me.input.isKeyPressed('left')) {
+        // flip the sprite on horizontal axis
+        this.flipX(true);
+        }
+        
+        else {
             this.body.vel.x = 0;
+        }
+        
+        if(me.input.isKeyPressed("up")) {
+            if(!this.body.jumping && !this.body.falling) {
+                this.body.jumping = true;
+                this.body.vel.y -= this.body.accel.y * me.timer.tick;
+            }
         }
 
         this.body.update(delta);
@@ -43,15 +66,21 @@ game.PlayerEntity = me.Entity.extend({
             this.renderable.setCurrentAnimation("idle");
         }
 
-
-
         this.body.update(delta);
         this._super(me.Entity, "update", [delta]);
          return true;
     },
     
     collideHandler: function(response) {
+        var ydif = this.pos.y - response.b.pos.y;
         
+ if(response.b.type === 'badguy') {
+     if(ydif<= -115){
+      response.b.alive = false;   
+     }else {
+         me.state.change(me.state.MENU);
+     }
+ }       
     }
     
     
@@ -128,7 +157,7 @@ game.BadGuy = me.Entity.extend({
              this._super(me.Entity, "update", [delta]);
              return true;
     },
-    
+ 
     collideHandler: function() {
          
     }
