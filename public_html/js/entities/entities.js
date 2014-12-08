@@ -24,7 +24,7 @@ game.PlayerEntity = me.Entity.extend({
 
 
 // it sets the speed we go on the x axis 1st number and y axis second number
-        this.body.setVelocity(3 , 20);
+        this.body.setVelocity(3 , 25);
         
         // sets the camer (viewport) to follow marios position(pos) on both the x and y axis
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
@@ -37,9 +37,9 @@ game.PlayerEntity = me.Entity.extend({
             this.body.vel.x += this.body.accel.x * me.timer.tick;
             this.flipX(false);
         }
-       if(me.input.isKeyPressed('left')) {
-        // flip the sprite on horizontal axis
-        this.flipX(true);
+        else if(me.input.isKeyPressed("left")) {
+            this.body.vel.x -= this.body.accel.x * me.timer.tick;
+            this.flipX(true);
         }
         
         else {
@@ -163,3 +163,21 @@ game.BadGuy = me.Entity.extend({
     }
     
 });
+
+game.Mushroom = me.Entity.extend({
+init: function(x, y, settings){
+this._super(me.Entity, 'init', [x, y, {
+image: "mushroom",
+        spritewidth: "64",
+        spriteheight: "64",
+        width: 64,
+        height: 64,
+        getShape: function() {
+        return (new me.Rect(0, 0, 64, 64)).toPolygon();
+        }
+            }]);
+
+        me.collision.check(this);
+        this.type = "mushroom"
+
+    }});
