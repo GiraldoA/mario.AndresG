@@ -3,24 +3,24 @@ game.PlayerEntity = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, {
                 image: "mario",
-                spritewidth: "832",
-                spriteheight: "1344",
-                width: 832,
-                height: 1344,
+                spritewidth: "64",
+                spriteheight: "64",
+                width: 64,
+                height: 64,
                 getShape: function() {
-                    return (new me.Rect(0, 0, 832, 1344)).toPolygon();
+                    return (new me.Rect(0, 0, 20, 64)).toPolygon();
                 }
             }]);
 
 //this is where I render my charecter animation 
 
-        this.renderable.addAnimation("idle", [120]);
-        this.renderable.addAnimation("bigIdle", [19]);
+        this.renderable.addAnimation("idle", [39]);
+        this.renderable.addAnimation("bigIdle", [30]);
         //creat an animation caalled smallWalk using pictures of the image defined above (mario)
         //sets the animation to run through pictures 8-12
         // the last numnber says we sswitch between pictures every 80 milliseconds
-        this.renderable.addAnimation("smallWalk", [132, 133, 134, 135, 136, 137, 138, 139, 140], 80);
-        this.renderable.addAnimation("bigWalk", [14, 15, 16, 17, 18], 80);
+        this.renderable.addAnimation("smallWalk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 110);
+        this.renderable.addAnimation("bigWalk", [72, 73, 72, 73, 72, 73, 125], 10);
         this.renderable.addAnimation("shrink", [0,1,2,3], 80);
         this.renderable.addAnimation("grow", [4,5,6,7], 120);
 
@@ -28,7 +28,7 @@ game.PlayerEntity = me.Entity.extend({
 
         this.big = false;
 // it sets the speed we go on the x axis 1st number and y axis second number
-        this.body.setVelocity(5, 25);
+        this.body.setVelocity(3, 25);
 
         // sets the camer (viewport) to follow marios position(pos) on both the x and y axis
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
