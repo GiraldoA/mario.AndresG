@@ -8,7 +8,7 @@ game.PlayScreen = me.ScreenObject.extend({
 
         me.levelDirector.loadLevel("Andreslevel01");
         
-        this.resetPlayer(0, 400);
+        this.resetPlayer(0, 500);
 
 
         me.input.bindKey(me.input.KEY.RIGHT, "right");

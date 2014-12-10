@@ -20,7 +20,7 @@ game.PlayerEntity = me.Entity.extend({
         //sets the animation to run through pictures 8-12
         // the last numnber says we sswitch between pictures every 80 milliseconds
         this.renderable.addAnimation("smallWalk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 110);
-        this.renderable.addAnimation("bigWalk", [72, 73, 72, 73, 72, 73, 125], 10);
+        this.renderable.addAnimation("bigWalk", [72, 73, 72, 73, 72, 73, 125], 5);
         this.renderable.addAnimation("shrink", [0,1,2,3], 80);
         this.renderable.addAnimation("grow", [4,5,6,7], 120);
 
@@ -28,7 +28,7 @@ game.PlayerEntity = me.Entity.extend({
 
         this.big = false;
 // it sets the speed we go on the x axis 1st number and y axis second number
-        this.body.setVelocity(3, 25);
+        this.body.setVelocity(7, 23);
 
         // sets the camer (viewport) to follow marios position(pos) on both the x and y axis
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
@@ -57,7 +57,7 @@ game.PlayerEntity = me.Entity.extend({
             }
         }
 
-        this.body.update(delta);
+        
         me.collision.check(this, true, this.collideHandler.bind(this), true);
 
         if (!this.big) {
@@ -76,7 +76,7 @@ game.PlayerEntity = me.Entity.extend({
                     this.renderable.setCurrentAnimation("bigWalk");
                     this.renderable.setAnimationFrame();
                 }
-
+               
             } else {
                 this.renderable.setCurrentAnimation("bigIdle");
             }
@@ -88,9 +88,10 @@ game.PlayerEntity = me.Entity.extend({
     },
     collideHandler: function(response) {
         var ydif = this.pos.y - response.b.pos.y;
+        console.log(ydif);
 
         if (response.b.type === 'badguy') {
-            if (ydif <= -115) {
+            if (ydif <= -50){
                 response.b.alive = false;
             } else {
                 if (this.big) {
@@ -99,7 +100,7 @@ game.PlayerEntity = me.Entity.extend({
                     this.jumping = true;
                     this.renderable.setCurrentAnimation("shrink", "idle");
                     this.renderable.setAnimationFrame();
-                } else {
+                } else if(response.b.alive){
                     me.state.change(me.state.MENU);
                 }
             }
@@ -163,7 +164,6 @@ game.BadGuy = me.Entity.extend({
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
         if (this.alive) {
-            console.log(this.walkLeft + " " + this.pos.x + " " + this.startX + " " + this.endX);
 
             if (this.walkLeft && this.pos.x <= this.startX) {
                 console.log("Going right");
