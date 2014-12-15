@@ -40,6 +40,15 @@
   <object name="Mushroom" x="772" y="140" width="72" height="70"/>
  </objectgroup>
  <objectgroup name="trigger-entities">
-  <object name="lev" x="1686" y="422" width="60" height="138"/>
+  <properties>
+   <property name="level" value="andreslevel03"/>
+   <property name="xSpawn" value="400"/>
+   <property name="ySpawn" value="0"/>
+  </properties>
+  <object name="levelTrigger" x="1686" y="422" width="60" height="138">
+   <properties>
+    <property name="level" value="andreslevel03"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
